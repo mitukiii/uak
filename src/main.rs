@@ -13,7 +13,15 @@ static FOOTER: &str = "\n\n# UAK END: The above lines is added by uak.\n";
 
 type Result<T, E = Box<dyn Error + Send + Sync + 'static>> = core::result::Result<T, E>;
 
-fn main() -> Result<()> {
+fn main() {
+    let result = run();
+    result.unwrap_or_else(|err| {
+        eprintln!("uak: {}", err);
+        std::process::exit(1);
+    });
+}
+
+fn run() -> Result<()> {
     let authorized_keys_path = env::args().nth(1).ok_or(USAGE)?;
     let remote_authorized_keys_url = env::args().nth(2).ok_or(USAGE)?;
     let current_content = read_file(&authorized_keys_path)?;
