@@ -52,12 +52,11 @@ fn inject(current_content: &str, content_to_add: &str) -> String {
     let regex = Regex::new(regex_string.as_str()).unwrap();
 
     if regex.is_match(current_content) {
-        regex.replace_all(
-            current_content,
-            [HEADER, content_to_add, FOOTER].concat()
-        ).to_string()
+        regex
+            .replace_all(current_content, [HEADER, content_to_add, FOOTER].concat())
+            .to_string()
     } else {
-        [current_content, HEADER, content_to_add, FOOTER,].concat()
+        [current_content, HEADER, content_to_add, FOOTER].concat()
     }
 }
 
